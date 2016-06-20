@@ -43,6 +43,10 @@ RSpec.describe NumberReader do
     end
 
     context 'following simple rule' do
+      # Test only some cases of the simple rule
+      it { expect(convert(66)).to eq('sixty-six') }
+      it { expect(convert(42)).to eq('fourty-two') }
+      it { expect(convert(21)).to eq('twenty-one') }
     end
   end
 end
