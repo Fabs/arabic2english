@@ -43,7 +43,6 @@ RSpec.describe NumberReader do
     end
 
     context 'following simple rule' do
-
     end
   end
 end
