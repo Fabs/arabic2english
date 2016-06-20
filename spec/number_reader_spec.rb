@@ -2,7 +2,7 @@ require_relative '../lib/number_reader.rb'
 
 RSpec.describe NumberReader do
   include NumberReader
-  alias_method 'convert', 'arabic_to_english'
+  alias_method 'convert', 'to_english'
 
   context '[0-9] decimals' do
     it { expect(convert(0)).to eq('zero') }
@@ -61,6 +61,33 @@ RSpec.describe NumberReader do
       it { expect(convert(342)).to eq('three hundred fourty-two') }
       it { expect(convert(999)).to eq('nine hundred ninety-nine') }
       it { expect(convert(211)).to eq('two hundred eleven') }
+    end
+  end
+
+  context '[1000] four-digit' do
+    context 'NOT following rule' do
+      it { expect(convert(1000)).to eq('one thousand') }
+    end
+  end
+
+  context 'strict API restrictions' do
+    it 'does not accept strings or other classes' do
+      expect { convert('bananas') }.to raise_error(/Not a Fixnum/)
+      expect { convert([]) }.to raise_error(/Not a Fixnum/)
+      expect { convert({}) }.to raise_error(/Not a Fixnum/)
+    end
+
+    it 'does not accept nil values' do
+      expect { convert(nil) }.to raise_error(/cannot be nil/)
+    end
+
+    it 'accepts only number within ranges it can calculate' do
+      expect { convert(-1) }.to raise_error(/out of range/)
+      expect { convert(1001) }.to raise_error(/out of range/)
+    end
+
+    it 'does not accept float point numbers' do
+      expect { convert(10.5) }.to raise_error(/float point/)
     end
   end
 end

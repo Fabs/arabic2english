@@ -24,26 +24,32 @@ module NumberReader
       70 => 'seventy',
       80 => 'eighty',
       90 => 'ninety',
-      100 => 'one hundred'
+      100 => 'one hundred',
+      1000 => 'one thousand',
     }.freeze
   end
 
   SOLVER = NumberReader.build_unique_number_solver.freeze
 
-  def arabic_to_english(number)
+  def to_english(number)
+    raise 'Can\'t convert float point' if number.is_a? Float
+    raise 'Number cannot be nil' if number.nil?
+    raise 'Not a Fixnum' if number.class != Fixnum
+    raise 'Number out of range' unless (0..1000).member?(number)
+
+    recursive_conversion(number)
+  end
+
+  def recursive_conversion(number)
     # Leading numbers with zeroes (e.g. 100, 1000) and unique numbers
     return SOLVER[number] if SOLVER[number]
     return SOLVER[number / 100] + ' hundred' if number % 100 == 0
 
-    recursive_calculation(number)
-  end
-
-  def recursive_calculation(number)
     magnitude = 10**(number.to_s.size - 1)
 
     result = []
-    result << arabic_to_english((number / magnitude) * magnitude)
-    result << arabic_to_english(number % magnitude)
+    result << recursive_conversion((number / magnitude) * magnitude)
+    result << recursive_conversion(number % magnitude)
     result.join(separator_for(number))
   end
 
