@@ -24,7 +24,7 @@ module NumberReader
       70 => 'seventy',
       80 => 'eighty',
       90 => 'ninety',
-      100 => 'hundred'
+      100 => 'one hundred'
     }.freeze
   end
 
@@ -32,9 +32,8 @@ module NumberReader
 
   def arabic_to_english(number)
     # Leading numbers with zeroes (e.g. 100, 1000) and unique numbers
-    return 'one hundred' if number == 100
     return SOLVER[number] if SOLVER[number]
-    return SOLVER[number / 100] + ' ' + SOLVER[100] if number % 100 == 0
+    return SOLVER[number / 100] + ' hundred' if number % 100 == 0
 
     recursive_calculation(number)
   end
