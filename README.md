@@ -14,7 +14,9 @@ $ bundle install
 
 # Running
 
+```
 $ ruby arabic2english.rb 100
+```
 
 # Tests
 
