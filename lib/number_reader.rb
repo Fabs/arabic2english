@@ -31,7 +31,7 @@ module NumberReader
 
   SOLVER = NumberReader.build_unique_number_solver.freeze
 
-  def to_english(number)
+  def arabic_to_english(number)
     raise "Can\'t convert float point: #{number}" if number.is_a? Float
     raise 'Number cannot be nil' if number.nil?
     raise "Not a Fixnum: #{number.class}" if number.class != Fixnum

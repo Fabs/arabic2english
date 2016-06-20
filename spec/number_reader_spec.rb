@@ -2,7 +2,7 @@ require_relative '../lib/number_reader.rb'
 
 RSpec.describe NumberReader do
   include NumberReader
-  alias_method 'convert', 'to_english'
+  alias_method 'convert', 'arabic_to_english'
 
   context '[0-9] decimals' do
     it { expect(convert(0)).to eq('zero') }
