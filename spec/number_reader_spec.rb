@@ -2,7 +2,7 @@ require_relative '../lib/number_reader.rb'
 
 RSpec.describe NumberReader do
   include NumberReader
-  alias_method 'convert', 'convert_arabic_number_to_english'
+  alias_method 'convert', 'arabic_to_english'
 
   context '[0-9] decimals' do
     it { expect(convert(0)).to eq('zero') }
@@ -42,11 +42,25 @@ RSpec.describe NumberReader do
       it { expect(convert(90)).to eq('ninety') }
     end
 
-    context 'following simple rule' do
-      # Test only some cases of the simple rule
+    context 'following simple rule (samples)' do
       it { expect(convert(66)).to eq('sixty-six') }
       it { expect(convert(42)).to eq('fourty-two') }
       it { expect(convert(21)).to eq('twenty-one') }
+    end
+  end
+
+  context '[100-999] three-digits' do
+    context 'NOT following rule' do
+      it { expect(convert(100)).to eq('one hundred') }
+    end
+
+    context 'following simple rule (samples)' do
+      it { expect(convert(200)).to eq('two hundred') }
+      it { expect(convert(500)).to eq('five hundred') }
+      it { expect(convert(501)).to eq('five hundred and one') }
+      it { expect(convert(342)).to eq('three hundred fourty-two') }
+      it { expect(convert(999)).to eq('nine hundred ninety-nine') }
+      it { expect(convert(211)).to eq('two hundred eleven') }
     end
   end
 end

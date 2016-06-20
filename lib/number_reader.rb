@@ -11,6 +11,7 @@ module NumberReader
     end
 
     DECIMALS = %w(zero one two three four five six seven eight nine).freeze
+
     TWO_DIGIT = %w(ten eleven twelve thirteen fourteen fifteen sixteen seventeen
                    eighteen nineteen).freeze
 
@@ -22,18 +23,34 @@ module NumberReader
       60 => 'sixty',
       70 => 'seventy',
       80 => 'eighty',
-      90 => 'ninety'
+      90 => 'ninety',
+      100 => 'hundred'
     }.freeze
   end
 
   SOLVER = NumberReader.build_unique_number_solver.freeze
 
-  def convert_arabic_number_to_english(number)
-    result = SOLVER[number]
-    return result if SOLVER[number]
+  def arabic_to_english(number)
+    # Leading numbers with zeroes (e.g. 100, 1000) and unique numbers
+    return 'one hundred' if number == 100
+    return SOLVER[number] if SOLVER[number]
+    return SOLVER[number / 100] + ' ' + SOLVER[100] if number % 100 == 0
 
-    digit = number % 10
-    most_significant = number - digit
-    SOLVER[most_significant] + '-' + SOLVER[digit]
+    recursive_calculation(number)
+  end
+
+  def recursive_calculation(number)
+    magnitude = 10**(number.to_s.size - 1)
+
+    result = []
+    result << arabic_to_english((number / magnitude) * magnitude)
+    result << arabic_to_english(number % magnitude)
+    result.join(separator_for(number))
+  end
+
+  def separator_for(number)
+    return '-' if number <= 99
+    return ' and ' if number <= 999 && number % 100 <= 10
+    ' '
   end
 end
