@@ -1,6 +1,6 @@
 This project implements the Voyagin assignment. It converts numbers from Indo-Arabic
 notation to english as per
-[described here](https://gist.github.com/Hiroyou/f93b2954e6ad5a764fc6]).
+[described here](https://gist.github.com/Hiroyou/f93b2954e6ad5a764fc6).
 
 # Dependencies
 
